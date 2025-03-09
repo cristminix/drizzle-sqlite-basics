@@ -1,15 +1,15 @@
 import {cities,countries} from "@/global/schema";
-import {db} from "@/global/lib/db";
+import {db} from "@/global/lib";
 import {eq} from "drizzle-orm";
 
 const main = async () => {
 
-    const ls = await db
-        .select()
+    const records = await db
+        .select({city:cities.name,country:countries.name})
         .from(countries)
-        .leftJoin(cities, eq(cities.countryId, countries.id))
+        .rightJoin(cities, eq(cities.countryId, countries.id))
         .where(eq(countries.id, 10))
-    console.info(ls)
+    console.info(records)
 }
 
 main()
